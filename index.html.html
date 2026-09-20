@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#294b43">
+  <meta name="description" content="悉尼旅行行程时间线｜2026年9月25日至26日，可编辑、添加日期并保存为网页。">
+  <title>SYDNEY 2026 · Judy &amp; Mum｜旅行时间线</title>
+  <style>
+    :root { --ink:#22302b; --pine:#294b43; --deep:#213e37; --sage:#f1f7f3; --sage-line:#c8d9cf; --mint:#8fb4a4; --amber:#c99a48; --amber-ink:#916729; --amber-bg:#fff6e8; --muted:#69756f; --border:#dce6dd; --surface:#fff; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; padding:clamp(10px,2vw,28px); background:#f2f5f1; color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+    button,input,textarea,select { font:inherit; }
+    button { cursor:pointer; }
+    [hidden] { display:none !important; }
+    .sheet { max-width:1160px; min-height:calc(100vh - 40px); margin:0 auto; padding:clamp(17px,3vw,36px); background:white; border:1px solid var(--border); border-radius:23px; box-shadow:0 18px 60px #203f3010; }
+    .eyebrow { color:#819187; font-size:11px; font-weight:750; letter-spacing:2px; text-transform:uppercase; }
+    .top { display:flex; justify-content:space-between; align-items:center; gap:15px; }
+    h1 { margin:8px 0 6px; color:var(--pine); font-size:clamp(25px,3vw,39px); line-height:1.15; letter-spacing:-.9px; }
+    .sub { margin:0; color:var(--muted); font-size:14px; line-height:1.5; }
+    .brand { min-width:145px; padding:14px 18px; border:1px solid var(--sage-line); background:var(--sage); border-radius:14px; text-align:center; }
+    .brand strong { display:block; color:var(--pine); font-size:14px; letter-spacing:1px; }
+    .brand span { display:block; margin-top:3px; font-size:11px; color:#728779; }
+    .rule { height:3px; background:var(--pine); margin:25px 0 18px; }
+    .controls { display:flex; gap:9px; align-items:center; flex-wrap:wrap; }
+    .btn { background:#fff; color:var(--pine); border:1px solid #d3e1d6; border-radius:999px; padding:10px 14px; font-size:13px; font-weight:700; line-height:1.2; transition:background .15s; }
+    .btn:hover { background:var(--sage); }
+    .btn.primary { background:var(--pine); border-color:var(--pine); color:white; }
+    .btn.primary:hover { background:#3b6156; }
+    .btn:focus-visible, .date-tab:focus-visible, input:focus-visible,textarea:focus-visible,select:focus-visible { outline:3px solid #9bc4ab; outline-offset:2px; }
+    .controls .grow { flex:1; }
+    .navigation { margin-top:26px; }
+    .nav-head { display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom:11px; }
+    .section-label { margin:0; color:#65776b; font-size:11px; font-weight:750; letter-spacing:1.5px; }
+    .dates { display:flex; gap:9px; flex-wrap:wrap; }
+    .date-tab { border:1px solid #e0e8e0; border-radius:13px; background:white; color:#5b6f64; padding:11px 17px; min-width:130px; text-align:left; }
+    .date-tab .tab-top { display:block; font-size:10px; letter-spacing:1px; font-weight:750; margin-bottom:4px; }
+    .date-tab .tab-main { display:block; font-size:17px; font-weight:800; }
+    .date-tab.active { background:var(--pine); color:white; border-color:var(--pine); box-shadow:0 5px 13px #2a4b4220; }
+    .date-tab.active .tab-top { color:#cbe1d3; }
+    .date-picker { border:1px solid var(--sage-line); color:var(--pine); border-radius:10px; padding:8px; background:white; font-size:13px; min-width:130px; }
+    .add-date { display:flex; align-items:center; flex-wrap:wrap; gap:7px; }
+    .date-header { margin:30px 0 20px; display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }
+    .date-header h2 { margin:0; font-size:clamp(23px,2.6vw,34px); color:var(--pine); line-height:1.2; }
+    .day-note { margin:10px 0 0; color:var(--muted); font-size:15px; line-height:1.55; }
+    .day-chip { display:inline-block; flex:none; margin-top:2px; padding:7px 10px; border-radius:999px; background:#f1f7f3; color:var(--pine); font-size:11px; font-weight:800; white-space:nowrap; }
+    .day-form { margin-bottom:23px; padding:16px; background:#f7faf7; border:1px solid var(--border); border-radius:14px; display:grid; grid-template-columns:1fr 1.5fr; gap:10px; }
+    .day-form .wide { grid-column:1/-1; }
+    .timeline { position:relative; }
+    .timeline-row { display:grid; grid-template-columns:minmax(70px,116px) 36px minmax(0,1fr); min-height:84px; margin-bottom:18px; }
+    .time { padding:15px 9px 0 0; text-align:right; color:var(--pine); font-weight:550; font-size:22px; font-variant-numeric:tabular-nums; white-space:nowrap; }
+    .axis { position:relative; }
+    .axis::before { content:""; position:absolute; left:calc(50% - 1px); top:10px; bottom:-18px; width:2px; background:var(--sage-line); }
+    .axis::after { content:""; position:absolute; left:50%; top:0; width:18px; height:18px; border-radius:50%; background:var(--mint); transform:translateX(-50%); }
+    .timeline-row.focus .axis::after { background:var(--pine); }
+    .timeline-row.evening .axis::after { background:var(--amber); }
+    .timeline-row.evening .axis::before { background:#ead7b4; }
+    .timeline-row.evening .time { color:var(--amber-ink); }
+    .timeline-row:last-child { margin-bottom:0; }
+    .timeline-row:last-child .axis::before { bottom:0; }
+    .event-card { min-width:0; padding:16px 19px; border-radius:14px; background:white; }
+    .timeline-row.focus .event-card { background:var(--sage); }
+    .timeline-row.evening .event-card { background:var(--amber-bg); }
+    .event-title { margin:0; color:var(--ink); font-size:clamp(19px,2.1vw,25px); font-weight:750; overflow-wrap:anywhere; line-height:1.32; }
+    .event-note { margin:7px 0 0; color:var(--muted); font-size:clamp(14px,1.6vw,18px); line-height:1.55; overflow-wrap:anywhere; }
+    .event-detail { margin:4px 0 0; color:var(--amber-ink); font-size:clamp(13px,1.5vw,16px); line-height:1.5; overflow-wrap:anywhere; }
+    .section-break { border:0; border-top:1px solid #ece2d2; margin:26px 0; }
+    .edit-only { display:none !important; }
+    body.editing .edit-only { display:initial !important; }
+    body.editing .edit-action-bar { display:flex !important; }
+    body.editing .day-form { display:grid !important; }
+    body.editing .editor { display:grid !important; }
+    body.editing .event-card { box-shadow:inset 0 0 0 1px #d3dfd6; }
+    .editor { gap:10px; }
+    .field { display:grid; gap:4px; min-width:0; }
+    .field-label { font-size:11px; font-weight:800; color:#6b7b71; }
+    .field-control { width:100%; min-width:0; padding:9px 10px; border:1px solid #d7e2d9; background:#fff; border-radius:9px; color:var(--ink); font-size:14px; line-height:1.4; }
+    textarea.field-control { min-height:54px; resize:vertical; }
+    .edit-time { width:100%; margin-top:4px; padding:7px 2px; font-size:14px; }
+    .edit-time-label { display:block; padding-right:9px; color:#758479; font-size:11px; text-align:right; }
+    .editor-actions { display:flex; justify-content:flex-end; }
+    .danger { color:#9e514b; border:1px solid #e9d3d0; background:white; padding:7px 10px; border-radius:8px; font-size:12px; cursor:pointer; }
+    .edit-action-bar { gap:8px; flex-wrap:wrap; align-items:center; margin:20px 0 0 152px; }
+    .save-status { font-size:12px; color:#6c8776; }
+    .foot { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; margin-top:32px; padding-top:18px; border-top:1px solid #e7eee7; color:#7c8c80; font-size:12px; line-height:1.6; }
+    .foot p { margin:0; }
+    .sharing { margin-top:20px; padding:12px 16px; color:#6d735e; border-radius:12px; background:#fbf8ef; border:1px solid #efe5ce; font-size:12px; line-height:1.65; }
+    .hidden-file { display:none; }
+    @media(max-width:700px) {
+      .sheet { padding:22px 14px 32px; }
+      .top { align-items:flex-start; }
+      .brand { min-width:0; padding:9px; }
+      .brand strong { font-size:11px; }
+      .brand span { font-size:10px; }
+      .navigation { margin-top:23px; }
+      .nav-head { align-items:flex-start; flex-direction:column; }
+      .date-tab { min-width:113px; padding:10px 12px; }
+      .date-header { margin-top:25px; }
+      .day-form { grid-template-columns:1fr; }
+      .day-form .wide { grid-column:1; }
+      .timeline-row { grid-template-columns:65px 25px minmax(0,1fr); margin-bottom:13px; min-height:70px; }
+      .time { font-size:15px; padding:10px 4px 0 0; }
+      .axis::after { width:15px; height:15px; }
+      .axis::before { top:8px; bottom:-13px; }
+      .event-card { padding:12px; border-radius:12px; }
+      .event-title { font-size:17px; }
+      .event-note { font-size:14px; }
+      .event-detail { font-size:13px; }
+      .edit-action-bar { margin-left:90px; }
+      .foot { flex-direction:column; }
+    }
+    @media(max-width:410px) {
+      body { padding:0; background:white; }
+      .sheet { border:0; border-radius:0; box-shadow:none; min-height:100vh; }
+      .top { gap:7px; }
+      h1 { font-size:24px; }
+      .sub { font-size:12px; }
+      .brand { padding:7px; }
+      .controls { gap:6px; }
+      .btn { font-size:12px; padding:9px 11px; }
+      .date-header { gap:8px; }
+      .date-header h2 { font-size:22px; }
+      .day-chip { font-size:10px; padding:6px 8px; }
+      .timeline-row { grid-template-columns:59px 23px minmax(0,1fr); }
+      .edit-action-bar { margin-left:82px; }
+    }
+    @media print {
+      @page { size:A4; margin:12mm; }
+      body { padding:0; background:white; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+      .sheet { max-width:none; padding:0; border:0; box-shadow:none; min-height:0; }
+      .controls, .navigation, .edit-only, .sharing, .foot, .brand { display:none !important; }
+      .rule { margin:15px 0; }
+      .date-header { margin:15px 0; }
+      .timeline-row { grid-template-columns:70px 28px minmax(0,1fr); min-height:0; margin-bottom:12px; break-inside:avoid; }
+      .time { font-size:14px; }
+      .axis::after { width:15px; height:15px; }
+      .axis::before { bottom:-12px; }
+      .event-card { padding:10px 12px; }
+      .event-title { font-size:16px; }
+      .event-note,.event-detail { font-size:11px; }
+    }
+  </style>
+</head>
+<body class="">
+  <main class="sheet">
+    <header>
+      <div class="top">
+        <div>
+          <div class="eyebrow">A LITTLE JOURNEY TOGETHER</div>
+          <h1>SYDNEY · 旅行时间线</h1>
+          <p class="sub">Judy &amp; Mum　/　25 SEP – 10 OCT 2026</p>
+        </div>
+        <div class="brand" aria-label="旅行手册标识"><strong>OUR DAYS</strong><span>SYDNEY 2026</span></div>
+      </div>
+      <div class="rule"></div>
+      <div class="controls" aria-label="网页操作">
+        <button type="button" class="btn primary" id="edit-toggle" aria-pressed="false">✎ 编辑行程</button>
+        <button type="button" class="btn" id="save-file">↓ 保存完整网页</button>
+        <button type="button" class="btn" id="import-file">↑ 导入旧版 / 备份</button>
+        <button type="button" class="btn" id="print-page">打印当日 / PDF</button>
+        <input id="import-input" class="hidden-file" type="file" accept=".html,.htm,text/html" aria-label="选择要导入的旧行程网页">
+      </div>
+    </header>
+
+    <section class="navigation" aria-label="选择旅行日期">
+      <div class="nav-head">
+        <p class="section-label">CHOOSE YOUR DAY · 切换日期</p>
+        <div class="add-date">
+          <input class="date-picker" id="new-date" type="date" min="2026-09-25" max="2026-10-10" aria-label="选择要增加的日期">
+          <button type="button" class="btn" id="add-date">＋ 添加日期</button>
+        </div>
+      </div>
+      <nav class="dates" id="date-tabs" aria-label="已有日期"><button type="button" class="date-tab active" aria-current="date" data-date="2026-09-25"><span class="tab-top">DAY 01 · FRI</span><span class="tab-main">9月25日</span></button><button type="button" class="date-tab" aria-current="false" data-date="2026-09-26"><span class="tab-top">DAY 02 · SAT</span><span class="tab-main">9月26日</span></button><button type="button" class="date-tab" aria-current="false" data-date="2026-09-27"><span class="tab-top">DAY 03 · SUN</span><span class="tab-main">9月27日</span></button></nav>
+    </section>
+
+    <section aria-labelledby="day-title">
+      <div class="date-header">
+        <div>
+          <h2 id="day-title">9月25日 · Friday · 抵达悉尼 · 慢慢开始</h2>
+          <p class="day-note" id="day-note">妈妈上午落地，今天以休息、安顿和轻松吃饭为主。</p>
+        </div>
+        <span class="day-chip" id="day-chip">DAY 01</span>
+      </div>
+      <div class="day-form edit-only" aria-label="编辑当天标题和说明">
+        <label class="field"><span class="field-label">当天主题</span><input id="day-theme" class="field-control" type="text" maxlength="120"></label>
+        <label class="field"><span class="field-label">当天一句话说明</span><input id="day-summary" class="field-control" type="text" maxlength="250"></label>
+        <div class="wide"><button type="button" class="danger" id="delete-date" hidden="">删除这一天（仅可删除新增日期）</button></div>
+      </div>
+      <div id="timeline" class="timeline" aria-label="当日时间线"><article class="timeline-row focus" data-id="flight"><div class="time">09:00</div><div class="axis" aria-hidden="true"></div><div class="event-card"><h3 class="event-title">妈妈抵达悉尼机场</h3><p class="event-note">经历长途飞行，不安排紧凑活动；先入境、取行李，慢慢来。</p><p class="event-detail">隆重迎接母上大人</p></div></article><article class="timeline-row plain" data-id="transfer"><div class="time">10:30</div><div class="axis" aria-hidden="true"></div><div class="event-card"><h3 class="event-title">前往 Sydney Olympic Park 住处</h3><p class="event-note">根据行李和精神状态选择火车或出租车；不用赶时间。</p><p class="event-detail">具体出发时间与路线待确认。</p></div></article><article class="timeline-row plain" data-id="lunch"><div class="time">12:00</div><div class="axis" aria-hidden="true"></div><div class="event-card"><h3 class="event-title">简单午餐 · 补充体力</h3><p class="event-note">吃个火锅，我准备食材，妈咪带底料</p><p class="event-detail">可根据实际抵达时间前后调整。</p></div></article><article class="timeline-row focus" data-id="checkin"><div class="time">13:30</div><div class="axis" aria-hidden="true"></div><div class="event-card"><h3 class="event-title">安顿行李 · 午休</h3><p class="event-note">好好睡一觉💤</p></div></article><hr class="section-break" aria-hidden="true"><article class="timeline-row evening" data-id="dinner"><div class="time">17:30</div><div class="axis" aria-hidden="true"></div><div class="event-card"><h3 class="event-title">根据时间灵活调整</h3><p class="event-note">可以去city的Chinatown附近简单逛逛，或者天文台看日落，海德公园，皇家植物园</p><p class="event-detail">不把外出当作必须完成的任务。</p></div></article><article class="timeline-row evening" data-id="sleep"><div class="time">19:30</div><div class="axis" aria-hidden="true"></div><div class="event-card"><h3 class="event-title">早点回住处休息</h3><p class="event-note">洗漱、整理第二天要带的东西，早点睡。</p><p class="event-detail">第二天上午去 Redfern 和悉尼大学。</p></div></article></div>
+      <div class="edit-action-bar edit-only">
+        <button type="button" class="btn primary" id="add-item">＋ 新增行程</button>
+        <button type="button" class="btn" id="reset-day">恢复当天初始安排</button>
+        <span class="save-status" role="status" aria-live="polite" id="save-status">✓ 已保存在本机；发给妈妈前请点击「保存完整网页」</span>
+      </div>
+    </section>
+
+    <div class="sharing"><strong>和妈妈一起修改：</strong>一个文件包含所有日期。修改后点击「保存完整网页」，把新下载的 HTML 发给对方继续编辑。浏览器本地修改不会实时同步；建议两个人轮流编辑同一最新版，避免覆盖彼此的改动。</div>
+    <footer class="foot"><p>SYDNEY 2026 · Judy &amp; Mum</p><p>9月25日为轻松建议版；9月26日沿用此前已确定的时间线。未核对的活动与交通信息请以现场及官方公告为准。</p></footer>
+  </main>
+
+  <script type="application/json" id="initial-itinerary">{"revision":1789876899232,"days":{"2026-09-25":{"theme":"抵达悉尼 · 慢慢开始","summary":"妈妈上午落地，今天以休息、安顿和轻松吃饭为主。","items":[{"id":"flight","time":"09:00","title":"妈妈抵达悉尼机场","note":"经历长途飞行，不安排紧凑活动；先入境、取行李，慢慢来。","detail":"隆重迎接母上大人","type":"focus"},{"id":"transfer","time":"10:30","title":"前往 Sydney Olympic Park 住处","note":"根据行李和精神状态选择火车或出租车；不用赶时间。","detail":"具体出发时间与路线待确认。","type":"plain"},{"id":"lunch","time":"12:00","title":"简单午餐 · 补充体力","note":"吃个火锅，我准备食材，妈咪带底料","detail":"可根据实际抵达时间前后调整。","type":"plain"},{"id":"checkin","time":"13:30","title":"安顿行李 · 午休","note":"好好睡一觉💤","detail":"","type":"focus"},{"id":"dinner","time":"17:30","title":"根据时间灵活调整","note":"可以去city的Chinatown附近简单逛逛，或者天文台看日落，海德公园，皇家植物园","detail":"不把外出当作必须完成的任务。","type":"evening"},{"id":"sleep","time":"19:30","title":"早点回住处休息","note":"洗漱、整理第二天要带的东西，早点睡。","detail":"第二天上午去 Redfern 和悉尼大学。","type":"evening"}]},"2026-09-26":{"theme":"旧地重游 · 校园与中秋夜","summary":"上午 Redfern、悉尼大学；傍晚 Burwood。保留此前的时间线，具体演出及交通可继续调整。","items":[{"id":"redfern","time":"09:30","title":"Redfern · 旧地重游","note":"走走曾经住过的街区，拍照留念。白兔画廊，Eveleigh 工业园，重走上学路","detail":"需要规划一下路线","type":"focus"},{"id":"university","time":"10:30","title":"University of Sydney · 悉尼大学","note":"参观校园、Quadrangle 四方庭院，参观免费开放的周泽荣博物馆（有木乃伊）","detail":"","type":"focus"},{"id":"lunch","time":"12:30","title":"午餐 · Lunch · Henry Lee's Redfern","note":"8：00开门，可以早上吃也可以中午吃","detail":"","type":"plain"},{"id":"rest","time":"14:00","title":"休息 · Free time","note":"回住处休息，或自由活动","detail":"","type":"plain"},{"id":"burwood-trip","time":"16:00","title":"前往 Burwood","note":"预留乘车时间，具体路线待确定","detail":"","type":"plain"},{"id":"burwood","time":"17:00","title":"Burwood · 夜市与舞狮","note":"逛 Chinatown、吃晚餐","detail":"17:30–19:00 舞狮表演（请以当日活动公告为准）","type":"evening"},{"id":"music","time":"19:15","title":"中秋音乐表演","note":"具体地点及演出信息待补充","detail":"","type":"evening"}]},"2026-09-27":{"theme":"自由行 · 待安排","summary":"点击「编辑行程」，和妈妈一起完善这一天。","items":[]}}}</script>
+  <script>
+  (() => {
+    'use strict';
+    const embedded = document.getElementById('initial-itinerary');
+    const defaults = JSON.parse(embedded.textContent);
+    const storageKey = 'sydney-2026-multi-day-planner-v1';
+    const oldStorageKey = 'sydney-itinerary-sep26-2026-v1';
+    const rangeStart = '2026-09-25', rangeEnd = '2026-10-10';
+    const byId = id => document.getElementById(id);
+    const clone = value => JSON.parse(JSON.stringify(value));
+    const safe = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const validType = type => ['focus','plain','evening'].includes(type) ? type : 'plain';
+    const validDate = date => /^\d{4}-\d{2}-\d{2}$/.test(date) && date >= rangeStart && date <= rangeEnd && !Number.isNaN(new Date(date + 'T12:00:00').getTime());
+    const validItems = items => Array.isArray(items) && items.length <= 300 && items.every(item => item && typeof item === 'object');
+    const idGen = () => 'item-' + Date.now() + '-' + Math.random().toString(36).slice(2,8);
+    const dateObj = date => new Date(date + 'T12:00:00');
+    const dayNumber = date => Math.round((Date.UTC(...date.split('-').map((v,i) => i === 1 ? Number(v)-1 : Number(v))) - Date.UTC(2026,8,25)) / 86400000) + 1;
+    const weekText = date => new Intl.DateTimeFormat('en-AU', {weekday:'long'}).format(dateObj(date));
+    const shortDate = date => { const [year,month,day] = date.split('-'); return `${Number(month)}月${Number(day)}日`; };
+    const dateLabel = date => `${shortDate(date)} · ${weekText(date)}`;
+    const inputField = (name, label, value, multiline=false) => multiline
+      ? `<label class="field"><span class="field-label">${label}</span><textarea class="field-control" rows="2" data-field="${name}">${safe(value)}</textarea></label>`
+      : `<label class="field"><span class="field-label">${label}</span><input class="field-control" type="text" data-field="${name}" value="${safe(value)}"></label>`;
+    let data = clone(defaults), currentDate = '2026-09-25', editing = false;
+    try {
+      const stored = JSON.parse(localStorage.getItem(storageKey));
+      if (stored && stored.days && typeof stored.days === 'object' && Number(stored.revision) > Number(data.revision)) data = stored;
+      // Safely bring over the previous single-day planner's browser edits on first launch.
+      const old = JSON.parse(localStorage.getItem(oldStorageKey));
+      if (old && validItems(old.items) && Number(old.revision) > Number(data.revision)) {
+        data.days['2026-09-26'].items = clone(old.items);
+        data.revision = Number(old.revision);
+      }
+    } catch (_) { /* Browser storage may be unavailable on file://. File export always works. */ }
+    const active = () => data.days[currentDate];
+    function persist() {
+      data.revision = Math.max(Date.now(), Number(data.revision || 0) + 1);
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(data));
+        byId('save-status').textContent = '✓ 已保存在本机；发给妈妈前请点击「保存完整网页」';
+      } catch (_) {
+        byId('save-status').textContent = '本机自动保存不可用，请点击「保存完整网页」';
+      }
+    }
+    function setEditing(value) {
+      editing = value;
+      document.body.classList.toggle('editing', editing);
+      byId('edit-toggle').textContent = editing ? '✓ 完成编辑' : '✎ 编辑行程';
+      byId('edit-toggle').setAttribute('aria-pressed', String(editing));
+      renderDay();
+    }
+    function renderTabs() {
+      const root = byId('date-tabs');
+      root.replaceChildren();
+      Object.keys(data.days).filter(validDate).sort().forEach(date => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = `date-tab${date === currentDate ? ' active' : ''}`;
+        button.setAttribute('aria-current', date === currentDate ? 'date' : 'false');
+        button.dataset.date = date;
+        button.innerHTML = `<span class="tab-top">DAY ${String(dayNumber(date)).padStart(2,'0')} · ${safe(weekText(date).slice(0,3).toUpperCase())}</span><span class="tab-main">${safe(shortDate(date))}</span>`;
+        root.append(button);
+      });
+    }
+    function renderDay() {
+      if (!active()) return;
+      const day = active();
+      byId('day-title').textContent = `${dateLabel(currentDate)} · ${day.theme || '自由行'}`;
+      byId('day-note').textContent = day.summary || '';
+      byId('day-chip').textContent = `DAY ${String(dayNumber(currentDate)).padStart(2,'0')}`;
+      byId('day-theme').value = day.theme || '';
+      byId('day-summary').value = day.summary || '';
+      byId('delete-date').hidden = currentDate === '2026-09-25' || currentDate === '2026-09-26';
+      byId('reset-day').hidden = !defaults.days[currentDate];
+      const timeline = byId('timeline');
+      timeline.replaceChildren();
+      if (!validItems(day.items)) day.items = [];
+      day.items.sort((a,b) => String(a.time || '99:99').localeCompare(String(b.time || '99:99')));
+      let insertedEvening = false;
+      day.items.forEach((item,index) => {
+        item.type = validType(item.type);
+        if (item.type === 'evening' && !insertedEvening) {
+          let divider = document.createElement('hr');
+          divider.className = 'section-break';
+          divider.setAttribute('aria-hidden','true');
+          timeline.append(divider);
+          insertedEvening = true;
+        }
+        const row = document.createElement('article');
+        row.className = `timeline-row ${item.type}`;
+        row.dataset.id = String(item.id);
+        if (editing) {
+          row.innerHTML = `<div class="time"><label class="edit-time-label">时间<input type="time" class="field-control edit-time" value="${safe(item.time)}" data-field="time" aria-label="活动时间"></label></div><div class="axis" aria-hidden="true"></div><div class="event-card"><div class="editor">
+          ${inputField('title','活动名称',item.title)}
+          ${inputField('note','行程备注',item.note,true)}
+          ${inputField('detail','补充信息（选填）',item.detail)}
+          <label class="field"><span class="field-label">卡片颜色</span><select class="field-control" data-field="type">
+          <option value="focus" ${item.type==='focus'?'selected':''}>浅绿 · 重点地点</option>
+          <option value="plain" ${item.type==='plain'?'selected':''}>白色 · 普通安排</option>
+          <option value="evening" ${item.type==='evening'?'selected':''}>浅橙 · 晚间活动</option>
+          </select></label><div class="editor-actions"><button type="button" class="danger" data-delete="${safe(item.id)}">删除这项</button></div></div></div>`;
+        } else {
+          row.innerHTML = `<div class="time">${safe(item.time)}</div><div class="axis" aria-hidden="true"></div><div class="event-card"><h3 class="event-title">${safe(item.title)}</h3>${item.note ? `<p class="event-note">${safe(item.note)}</p>` : ''}${item.detail ? `<p class="event-detail">${safe(item.detail)}</p>` : ''}</div>`;
+        }
+        timeline.append(row);
+      });
+      if (!day.items.length) timeline.innerHTML = '<p class="day-note">这一天还没有安排。点击「编辑行程」→「新增行程」开始填写。</p>';
+      renderTabs();
+    }
+    byId('date-tabs').addEventListener('click', e => {
+      const tab = e.target.closest('[data-date]');
+      if (!tab || !data.days[tab.dataset.date]) return;
+      currentDate = tab.dataset.date;
+      if (editing) setEditing(false); else renderDay();
+    });
+    byId('edit-toggle').addEventListener('click', () => setEditing(!editing));
+    byId('day-theme').addEventListener('input', e => {
+      active().theme = e.target.value;
+      byId('day-title').textContent = `${dateLabel(currentDate)} · ${active().theme || '自由行'}`;
+      persist();
+    });
+    byId('day-summary').addEventListener('input', e => {
+      active().summary = e.target.value;
+      byId('day-note').textContent = e.target.value;
+      persist();
+    });
+    byId('timeline').addEventListener('input', e => {
+      const input = e.target.closest('[data-field]'), row = e.target.closest('[data-id]');
+      if (!editing || !input || !row) return;
+      const item = active().items.find(entry => String(entry.id) === row.dataset.id);
+      if (!item) return;
+      item[input.dataset.field] = input.value;
+      persist();
+    });
+    byId('timeline').addEventListener('change', e => {
+      const input = e.target.closest('[data-field]');
+      if (editing && input && input.dataset.field === 'type') renderDay();
+    });
+    byId('timeline').addEventListener('click', e => {
+      const button = e.target.closest('[data-delete]');
+      if (!button || !editing) return;
+      const item = active().items.find(entry => String(entry.id) === button.dataset.delete);
+      if (!item || !confirm(`确定删除「${item.title}」吗？`)) return;
+      active().items = active().items.filter(entry => entry !== item);
+      persist(); renderDay();
+    });
+    byId('add-item').addEventListener('click', () => {
+      const item = {id:idGen(), time:'20:00', title:'新行程', note:'在这里填写活动内容', detail:'', type:'plain'};
+      active().items.push(item); persist(); renderDay();
+      const row = [...byId('timeline').querySelectorAll('[data-id]')].find(el => el.dataset.id === item.id);
+      row?.scrollIntoView({behavior:'smooth',block:'center'});
+      row?.querySelector('[data-field="title"]')?.focus({preventScroll:true});
+    });
+    byId('reset-day').addEventListener('click', () => {
+      if (!defaults.days[currentDate]) return;
+      if (!confirm(`确定将 ${shortDate(currentDate)} 恢复到最初安排吗？这一天的编辑将丢失，其他日期不受影响。`)) return;
+      data.days[currentDate] = clone(defaults.days[currentDate]); persist(); renderDay();
+    });
+    byId('add-date').addEventListener('click', () => {
+      const date = byId('new-date').value;
+      if (!validDate(date)) { alert('请先选择 2026年9月25日至10月10日之间的日期。'); return; }
+      if (!data.days[date]) {
+        data.days[date] = {theme:'自由行 · 待安排', summary:'点击「编辑行程」，和妈妈一起完善这一天。', items:[]};
+        persist();
+      }
+      currentDate = date;
+      byId('new-date').value = '';
+      if (editing) setEditing(false); else renderDay();
+    });
+    byId('delete-date').addEventListener('click', () => {
+      if (defaults.days[currentDate]) return;
+      if (!confirm(`确定删除 ${shortDate(currentDate)} 的整天行程吗？`)) return;
+      delete data.days[currentDate]; currentDate = '2026-09-25'; persist(); setEditing(false);
+    });
+    byId('print-page').addEventListener('click', () => { if (editing) setEditing(false); window.print(); });
+    function exportPage() {
+      if (editing) setEditing(false);
+      const old = embedded.textContent;
+      embedded.textContent = JSON.stringify(data).replace(/</g,'\\u003c');
+      const output = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      embedded.textContent = old;
+      const url = URL.createObjectURL(new Blob([output],{type:'text/html;charset=utf-8'}));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'Sydney_Travel_Planner_2026-09-25_to_10-10.html';
+      document.body.append(link); link.click(); link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+    }
+    byId('save-file').addEventListener('click', exportPage);
+    byId('import-file').addEventListener('click', () => byId('import-input').click());
+    byId('import-input').addEventListener('change', async e => {
+      const file = e.target.files?.[0]; if (!file) return;
+      try {
+        const text = await file.text();
+        const doc = new DOMParser().parseFromString(text,'text/html');
+        const node = doc.getElementById('initial-itinerary');
+        if (!node) throw new Error('未找到行程数据');
+        const imported = JSON.parse(node.textContent);
+        if (imported.days && typeof imported.days === 'object') {
+          const dates = Object.keys(imported.days).filter(validDate);
+          if (!dates.length || dates.some(date => !validItems(imported.days[date]?.items))) throw new Error('数据结构无效');
+          if (!confirm(`导入完整旅行网页（${dates.length} 天）将替换本页面现有的全部日期与行程，确定继续吗？`)) return;
+          data = {revision:Date.now(),days:clone(Object.fromEntries(dates.map(date => [date,imported.days[date]])))};
+          currentDate = dates.includes(currentDate) ? currentDate : dates.sort()[0];
+        } else if (validItems(imported.items)) {
+          if (!confirm('检测到旧版9月26日单日网页。只覆盖本文件的9月26日行程，保留其他日期，确定吗？')) return;
+          data.days['2026-09-26'] = {...data.days['2026-09-26'],items:clone(imported.items)};
+          currentDate = '2026-09-26';
+        } else { throw new Error('不是支持的行程网页'); }
+        persist(); setEditing(false);
+        alert('导入成功！记得点击「保存完整网页」生成可分享的新版本。');
+      } catch (err) {
+        alert('无法导入：请选择本旅行计划的 HTML 网页文件。\n' + (err?.message || '格式不匹配'));
+      } finally { e.target.value = ''; }
+    });
+    byId('new-date').value = '2026-09-27';
+    renderDay();
+  })();
+  </script>
+
+
+</body></html>
